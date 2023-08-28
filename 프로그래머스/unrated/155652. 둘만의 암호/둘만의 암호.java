@@ -15,9 +15,10 @@ class Solution {
                 }            
                 
             }
-             sb.append(c);
+             // sb.append(c);
+            answer += c;
         }
-        answer = sb.toString();
+        // answer = sb.toString();
         return answer;
     }
 }
