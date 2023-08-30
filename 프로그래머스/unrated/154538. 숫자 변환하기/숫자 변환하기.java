@@ -1,45 +1,27 @@
-import java.util.*;
+import java.util.HashSet;
 
 class Solution {
     public int solution(int x, int y, int n) {
-        int answer = 0;
-        
-        Queue<int[]> queue = new LinkedList<>();
-        queue.add(new int[]{x * 2, 1});
-        queue.add(new int[]{x * 3, 1});
-        queue.add(new int[]{x + n, 1});
-        
-        Set<Integer> set = new HashSet<>();
-        set.add(x * 2);
-        set.add(x * 3);
-        set.add(x + n);
-        
-        if(x == y) return 0;
-        
-        while(!queue.isEmpty()){
-            int[] num = queue.poll();
-            
-            if(num[0] == y){
-                return num[1];
-            }
-            
-             if (num[0] + n <= y && !set.contains(num[0] + n)) {
-                queue.add(new int[]{num[0] + n, num[1] + 1});
-                set.add(num[0] + n);
-            }
-            
-            if((num[0]*2 <= y) && (!set.contains(num[0]*2))){
-                queue.add(new int[]{num[0]*2, num[1]+1});
-                set.add(num[0]*2);
-            }
-            
-            if (num[0] * 3 <= y && !set.contains(num[0] * 3)) {
-                queue.add(new int[]{num[0] * 3, num[1] + 1});
-                set.add(num[0] * 3);
-            }
-            
-        }
 
+        int cnt = 0;
+        HashSet<Integer> curr = new HashSet<>(), next = null;
+        curr.add(x);
+
+        while (!curr.isEmpty()) {
+            if (curr.contains(y))
+                return cnt;
+            next = new HashSet<>();
+            for (int val : curr) {
+                int pVal = val + n;
+                int dVal = val * 2;
+                int tVal = val * 3;
+                if (pVal <= y) next.add(pVal);
+                if (dVal <= y) next.add(dVal);
+                if (tVal <= y) next.add(tVal);
+            }
+            curr = next;
+            cnt++;
+        }
         return -1;
     }
 }
